@@ -89,10 +89,27 @@ export default class ExpenseController {
   // Only change the below functions
 
   // Update an expense's tag
-  updateTag = async (req, res) => { };
+  updateTag = async (req, res) => { 
+    const id = req.params;
+    const {oldTag, newTag } = req.body;
+    try {
+      const expenses = await this.expenseRepository.updateTagInExpense(id, oldTag, newTag);
+      res.status(200).send(expenses);
+    } catch (err) {
+      res.status(500).send("Could not update the tag");
+    }
+  };
 
   // Delete a tag from an expense
-  deleteTag = async (req, res) => { };
+  deleteTag = async (req, res) => { 
+    const {id , tag }= req.params;
+    try {
+      const expenses = await this.expenseRepository.deleteTagFromExpense(id, tag);
+      res.status(200).send(expenses);
+    } catch (err) {
+      res.status(500).send("Could not update the tag");
+    }
+  };
 }
 
 

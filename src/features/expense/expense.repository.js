@@ -76,10 +76,22 @@ class ExpenseRepository {
   // Change below functions only
 
   // Update a tag in an expense
-  async updateTagInExpense(id, oldTag, newTag) { }
+  async updateTagInExpense(id, oldTag, newTag) { 
+      const db = getDB();
+      // await db.collection(this.collectionName).updateOne({ _id: new ObjectId(id) }, { $pull: { tags: oldTag } });
+      const result = await db.collection(this.collectionName).updateOne(
+        { _id: new ObjectId(id), tags:oldTag }, 
+        { $set: { "tags.$": newTag } }
+      );
+      return result;
+  }
 
   // Delete a tag from an expense
-  async deleteTagFromExpense(id, tag) { }
+  async deleteTagFromExpense(id, tag) { 
+    const db = getDB();
+      const result = await db.collection(this.collectionName).updateOne({ _id: new ObjectId(id) }, { $pull: { tags: tag } });
+      return result;
+  }
 
 }
 
